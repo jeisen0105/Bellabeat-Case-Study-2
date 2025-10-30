@@ -107,7 +107,7 @@ hourly_combined <- full_join(
 
 ### Adding Columns
 
-#### Adding a day of week column to both combined datasetes
+A day of week column was thena added to both combined datasets. 
 
 ```r
 daily_combined <- daily_combined %>%
@@ -121,7 +121,7 @@ hourly_combined <- hourly_combined %>%
   )
 ```
 
-#### Adding a total active minutes column to daily combined dataset
+A total active minutes column to only the daily combined dataset.
 
 ```r
 daily_combined <- daily_combined %>%
@@ -318,3 +318,8 @@ daily_combined %>%
   ) +
   theme_minimal()
 ```
+
+## Step 5: Share
+
+## Step 5: Act
+
