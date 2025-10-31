@@ -9,11 +9,11 @@ This project analyzes the Bellabeat Wellness Technology Case Study, a capstone p
 Bellabeat is a high-tech company founded in 2013 that manufactures health-focused products for women. The company collects data on activity, sleep, stress, and reproductive health to empower women with knowledge about their health and habits.
 
 Bellabeat's product line includes:
--Bellabeat App: Provides health data on activity, sleep, stress, and more.
--Leaf: A versatile wellness tracker worn as a bracelet, necklace, or clip.
--Time: A wellness watch combining classic aesthetics with smart tracking.
--Spring: A smart water bottle that tracks daily water intake.
--Subscription Program: Offers personalized guidance on nutrition, activity, sleep, etc.
+- Bellabeat App: Provides health data on activity, sleep, stress, and more.
+- Leaf: A versatile wellness tracker worn as a bracelet, necklace, or clip.
+- Time: A wellness watch combining classic aesthetics with smart tracking.
+- Spring: A smart water bottle that tracks daily water intake.
+- Subscription Program: Offers personalized guidance on nutrition, activity, sleep, etc.
 
 These smart products are designed to interact with one another to provide data-driven insights.
 
@@ -35,11 +35,11 @@ The data for this project is a public dataset from Kaggle, specifically from the
 
 Applying the ROCCC framework:
 
--Reliable: Low due to only 33 disitnct users being a small sample size. 
--Original: Low due the data being provided from a third party data provider (Amazon Mechanical Turk).
--Comprehensive: Low due to the data only contianing infromation about activity and not containing information about gender age and health conditons. 
--Current: Low due to the data being from 9 years ago.
--Cited: Low due to the fact that it has been obtained from an unidentified third partyu source (Amazon Mechanical Turk).
+- Reliable: Low due to only 33 disitnct users being a small sample size. 
+- Original: Low due the data being provided from a third party data provider (Amazon Mechanical Turk).
+- Comprehensive: Low due to the data only contianing infromation about activity and not containing information about gender age and health conditons. 
+- Current: Low due to the data being from 9 years ago.
+- Cited: Low due to the fact that it has been obtained from an unidentified third partyu source (Amazon Mechanical Turk).
 
 ### Preparing RStudio
 
