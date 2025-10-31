@@ -336,19 +336,51 @@ daily_combined %>%
 
 ### Average Steps by Day of Week
 
+The graph below shows
+
+![Chart](graphs/avg_steps_day.png)
+
 ### Average Steps by Hour of Day
+
+The graph below shows
+
+![Chart](graphs/avg_steps_hour.png)
 
 ### Correlation betwen total steps and calories
 
+The graph below shows
+
+![Chart](graphs/steps_v_calories.png)
+
 ### Correlation betwen total steps and total minutes asleep
+
+The graph below shows
+
+![Chart](graphs/steps_v_sleep.png)
 
 ### Correlation betwen sedentary minutes and total minutes asleep
 
+The graph below shows
+
+![Chart](graphs/sedentary_v_sleep.png)
+
 ### Correlation betwen lightly active minutes and total minutes asleep
+
+The graph below shows
+
+![Chart](graphs/lightly_v_sleep.png)
 
 ### Correlation betwen fairly active minutes and total minutes asleep
 
+The graph below shows
+
+![Chart](graphs/fairly_v_sleep.png)
+
 ### Correlation between very active minutes and total minutes asleep
+
+The graph below shows
+
+![Chart](graphs/very_v_sleep.png)
 
 ## Step 5: Act
 
