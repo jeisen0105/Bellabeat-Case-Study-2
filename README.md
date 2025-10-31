@@ -336,7 +336,7 @@ daily_combined %>%
 
 ### Average Steps by Day of Week
 
-The graph below shows
+The graph below shows 
 
 ![Chart](graphs/avg_steps_day.png)
 
