@@ -374,12 +374,12 @@ The graph below shows a negligible negative correlation (R=−0.09). This indica
 
 ### Reccomendations
 
-1. 
-   -
-2. 
-   -
-3. 
-   -
+1. "Anti-Sedentary" Campaign for Sleep
+   - There strong negative correlation (R=−0.60) between sedentary minutes and total minutes asleep indicating that people who spend more time being sedentary tend to get less sleep. Bellabeat should create an "Anti Sedentary" campaign that provides in app alerts to break up long periods of activity that are linked to deteroriated sleep. The leaf or time products can track these periods and send alerts to the Bellabeat app when sednetary minutes exceed one hour. The message should be framed around restorative sleep ("A 5-minute movement break now is an investment in your sleep tonight."). 
+2. Target the 3 PM Engagement Lull
+   - The drop-off in steps around 3 PM indicates a loss of user engagement during the mid-afternoon slump. Re-engaging users at this point can significantly lift daily activity and retention. Bellabeat should launch in-app reminders to maintain their activity. Introduce a "3-Minute-3 PM Challenge" within the App. This micro-challenge is a highly achievable goal (e.g., 200 steps or one minute of stretching) designed to break the afternoon slump and drive the user back to the App for positive reinforcement (a small badge, a point reward, etc.). This helps sustain momentum into the high-activity 5 PM - 7 PM window.
+3. Mitigate the Weekend Activity Dip
+   - Activity drops significantly on Sunday, suggesting users pause their tracking/wellness habits, which increases the likelihood of disengagement. Maintaining a routine across all seven days is key to long-term habit formation. Bellabeat should launch the "Seven-Day Streak" or "Self-Care Sunday" initiative focused on consistency, not intensity. Instead of focusing on steps, these challenges should emphasize utilization of other Bellabeat features (e.g., logging hydration with Spring, tracking a guided meditation through the Subscription Program, or simply logging sleep data with Leaf/Time).
    
 
 
