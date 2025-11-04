@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This document presents the analysis for the Bellabeat Wellness Technology Case Study, the capstone project for the Google Data Analytics Professional Certificate. The project follows the six-step data analysis process: Ask, Prepare, Process, Analyze, Share, and Act, to address key business objectives for Bellabeat's growth.
+This case study analyzes Bellabeat’s wellness technology data using the six-step data analysis process — Ask, Prepare, Process, Analyze, Share, and Act — as part of the Google Data Analytics Capstone Project. The goal is to uncover actionable insights that can guide Bellabeat’s marketing and product growth strategies.
 
 ## Background
 
-Bellabeat is a high-tech company, founded in 2013, focused on manufacturing health and wellness products specifically for women. The company's mission is to empower women with knowledge about their health and habits by collecting data on activity, sleep, stress, and reproductive health.
+Founded in 2013, Bellabeat is a wellness technology company that designs smart products to empower women with data-driven health insights. The company's mission is to empower women with knowledge about their health and habits by collecting data on activity, sleep, stress, and reproductive health.
 
 Bellabeat's product line includes:
 - Bellabeat App: Provides health data on activity, sleep, stress, and more.
@@ -15,17 +15,17 @@ Bellabeat's product line includes:
 - Spring: A smart water bottle that tracks daily water intake.
 - Subscription Program: Offers personalized guidance on nutrition, activity, sleep, etc.
 
-These smart products are designed to interact seamlessly with one another to provide comprehensive, data-driven insights to the user.
+These smart products integrate seamlessly to provide women with comprehensive, data-driven insights into their daily wellness habits.
 
 ## Scenario
 
-In this hypothetical case study, I am working as a Junior Data Analyst on the marketing team at Bellabeat. My primary objective is to present data-driven findings and strategic solutions to the Bellabeat executive team. This report will specifically include a clear articulation of the business task, a description of the data utilized, documentation of all cleaning and manipulation processes, a summary of the analysis, supporting visualizations, and top-tier, actionable recommendations based on the insights.
+In this hypothetical case study, I am working as a Junior Data Analyst on the marketing team at Bellabeat. My objective is to translate data insights into actionable strategies that help the Bellabeat executive team improve user engagement and growth. This report will specifically include a clear articulation of the business task, a description of the data utilized, documentation of all cleaning and manipulation processes, a summary of the analysis, supporting visualizations, and top-tier, actionable recommendations based on the insights.
 
 ## Step 1: Ask
 
-The business task is to analyze external consumer data on non-Bellabeat smart devices (specifically Fitbit data) to gain critical insights into user activity, engagement, and sleep behavior.
+The business task is to analyze external consumer data from non-Bellabeat smart devices (specifically Fitbit data) to identify behavioral trends in activity, engagement, and sleep.
 
-By identifying key trends (like the low activity on Sundays and the 3 PM lull) and critical health correlations (like the link between sedentary time and sleep), I will provide data-driven recommendations to the Bellabeat executive team on how to optimize marketing strategies for their products—the Leaf/Time trackers, the Spring smart bottle, and the Bellabeat App and Subscription Program—to increase user engagement and drive sustainable business growth.
+By identifying key behavioral trends — such as low activity on Sundays and a 3 PM engagement lull — and exploring correlations like sedentary time vs. sleep, I will develop data-driven recommendations to increase engagement across Bellabeat’s products.
 
 ## Step 2: Prepare
 
@@ -37,11 +37,13 @@ The data for this project is a public dataset sourced from Kaggle (Mobius user p
 
 Applying the ROCCC framework:
 
-- Reliable: Low due to only 33 disitnct users being a small sample size. 
-- Original: Low due the data being provided from a third party data provider (Amazon Mechanical Turk).
-- Comprehensive: Low due to The dataset lacking crucial demographic information (e.g., gender, age, health conditions) and only focuses on activity, calories, and sleep.
-- Current: Low due to the data being approximatley 9 years ago.
-- Cited: Low due to the fact that it has been obtained from an unidentified third partyu source (Amazon Mechanical Turk).
+- Reliable: Low — only 33 distinct users, limiting representativeness.
+- Original: Low — third-party dataset collected via Amazon Mechanical Turk.
+- Comprehensive: Low — lacks demographic information (e.g., gender, age, health conditions) and focuses mainly on activity, calories, and sleep data.
+- Current: Low — data is approximately nine years old.
+- Cited: Low — obtained from an unverified third-party source (Amazon Mechanical Turk).
+
+Despite these limitations, the dataset remains valuable for identifying general behavioral patterns that can inform Bellabeat’s strategic decisions.
 
 ### Preparing RStudio
 
@@ -66,7 +68,7 @@ hourly_calories <- read_csv("hourlyCalories_merged.csv")
 
 ### Data Cleaning 
 
-The four raw datasets were cleaned to ensure consistency for merging. This included standardizing column names (to snake_case), removing duplicates, converting the user ID column to a character format for joining, standardizing date/time fields, and removing unecessary columns (distance and sleep records).
+The four raw datasets were cleaned to ensure consistency for merging. This included standardizing column names (to snake_case), removing duplicates, converting the user ID column to a character format for joining, standardizing date/time fields, and removing unnecessary columns (distance and duplicate sleep record fields).
 
 ```r
 daily_activity_clean <- daily_activity %>%
@@ -139,7 +141,7 @@ hourly_combined <- hourly_combined %>%
   )
 ```
 
-A total active minutes column to only the daily combined dataset.
+A total_active_minutes column was added to the daily dataset to consolidate overall activity metrics.
 
 ```r
 daily_combined <- daily_combined %>%
@@ -158,9 +160,72 @@ Before correlation and time-series analysis, key descriptive statistics were gen
 |---------------	|-------------------	|-----------------------	|------------------	|------------------	|
 | 7637.911      	| 419.1732          	| 991.2106              	| 2303.61          	| 227.5426         	|
 
-### Graphing Average Steps by Day of Week
+On average, users walked 7,638 steps and burned 2,304 calories per day while spending about 16.5 hours sedentary — indicating a largely inactive lifestyle and an opportunity for Bellabeat to promote movement habits.
 
-This bar chart reveals weekly step patterns, highlighting when users are most and least active.
+## Correlation Analysis
+
+Pearson correlation coefficients (r) were calculated and visualized to understand the linear relationships between activity metrics, calories burned, and sleep duration.
+
+```r
+# Calculate R Value for Total Steps v Calories
+r_steps_calories <- daily_combined %>%
+  filter(!is.na(total_steps) & !is.na(calories)) %>%
+  summarise(r = cor(total_steps, calories)) %>%
+  pull(r)
+r_steps_calories <- round(r_steps_calories, 2)
+
+# Calculate R Value for Total Steps v Total Minutes Asleep
+r_steps_sleep <- daily_combined %>%
+  filter(!is.na(total_minutes_asleep)) %>%
+  summarise(r = cor(total_steps, total_minutes_asleep)) %>%
+  pull(r)
+r_steps_sleep <- round(r_steps_sleep, 2)
+
+# Calculate R Value for Sedentary Minutes v Total Minutes Asleep
+r_sedentary_sleep <- daily_combined %>%
+  filter(!is.na(total_minutes_asleep)) %>%
+  summarise(r = cor(sedentary_minutes, total_minutes_asleep)) %>%
+  pull(r)
+r_sedentary_sleep <- round(r_sedentary_sleep, 2)
+
+# Calculate R Value for Lightly Active Minutes v Total Minutes Asleep
+r_lightly_sleep <- daily_combined %>%
+  filter(!is.na(total_minutes_asleep)) %>%
+  summarise(r = cor(lightly_active_minutes, total_minutes_asleep)) %>%
+  pull(r)
+r_lightly_sleep <- round(r_lightly_sleep, 2)
+
+# Calculate R Value for Fairly Active Minutes v Total Minutes Asleep
+r_fairly_sleep <- daily_combined %>%
+  filter(!is.na(total_minutes_asleep)) %>%
+  summarise(r = cor(fairly_active_minutes, total_minutes_asleep)) %>%
+  pull(r)
+r_fairly_sleep <- round(r_fairly_sleep, 2)
+```
+
+|Metric_Pair                     |     r|
+|:-------------------------------|-----:|
+|Total Steps vs Calories         |  0.59|
+|Total Steps vs Sleep            | -0.19|
+|Sedentary Minutes vs Sleep      | -0.60|
+|Lightly Active Minutes vs Sleep |  0.03|
+|Fairly Active Minutes vs Sleep  | -0.25|
+|Very Active Minutes vs Sleep    | -0.09|
+
+### Very Active Minutes vs Total Minutes Asleep
+
+```r
+# Calculate R Value for Very Active Minutes v Total Minutes Asleep
+r_very_sleep <- daily_combined %>%
+  filter(!is.na(total_minutes_asleep)) %>%
+  summarise(r = cor(very_active_minutes, total_minutes_asleep)) %>%
+  pull(r)
+r_very_sleep <- round(r_very_sleep, 2)
+```
+
+## Step 5: Share
+
+### Average Steps by Day of Week
 
 ```r
 daily_combined %>%
@@ -176,7 +241,11 @@ daily_combined %>%
   theme_minimal()
 ```
 
-### Graphing Average Steps by Hour of Day
+The graph below shows that average steps are highest during the Monday-Saturday window and lowest on Sunday. This suggests users prioritize tracking activity during the work week and on the main leisure day.
+
+![Chart](graphs/avg_steps_day.png)
+
+### Average Steps by Hour of Day
 
 This bar chart pinpoints the peak times of day for user activity.
 
@@ -193,19 +262,14 @@ hourly_combined %>%
   ) +
   theme_minimal()
 ```
-## Correlation Analysis
 
-Pearson correlation coefficients (r) were calculated and visualized to understand the linear relationships between activity metrics, calories burned, and sleep duration.
+The graph below shows that users exhibit two distinct peak activity windows: 12 PM - 2 PM (Lunchtime) and 5 PM - 7 PM (Post-Work/Evening). There is also a noticeable dip around 3 PM. 
 
-### Total steps vs calories burned
+![Chart](graphs/avg_steps_hour.png)
+
+### Correlation betwen total steps and calories
 
 ```r
-r_steps_calories <- daily_combined %>%
-  filter(!is.na(total_steps) & !is.na(calories)) %>%
-  summarise(r = cor(total_steps, calories)) %>%
-  pull(r)
-r_steps_calories <- round(r_steps_calories, 2)
-
 daily_combined %>%
   ggplot(aes(x = total_steps, y = calories)) +
   geom_point(alpha = 0.5, color = "darkgreen") +
@@ -218,15 +282,13 @@ daily_combined %>%
   theme_minimal()
 ```
 
-### Total steps vs Total minutes asleep
+The graph below shows a moderate positive correlation (R=0.59) between total steps and calories burned. This is an expected relationship, indicating that the more steps a user takes, the more likely they are to burn more calories.
+
+![Chart](graphs/steps_v_calories.png)
+
+### Correlation betwen total steps and total minutes asleep
 
 ```r
-r_steps_sleep <- daily_combined %>%
-  filter(!is.na(total_minutes_asleep)) %>%
-  summarise(r = cor(total_steps, total_minutes_asleep)) %>%
-  pull(r)
-r_steps_sleep <- round(r_steps_sleep, 2)
-
 daily_combined %>%
   filter(!is.na(total_minutes_asleep)) %>%
   ggplot(aes(x = total_steps, y = total_minutes_asleep)) +
@@ -240,15 +302,13 @@ daily_combined %>%
   theme_minimal()
 ```
 
-### Sedentary minutes vs total minutes asleep
+The graph below shows a negligible negative correlation (R=−0.19) between total steps and minutes asleep. This suggests that the overall number of steps a user takes does not significantly impact their total sleep duration.
+
+![Chart](graphs/steps_v_sleep.png)
+
+### Correlation betwen sedentary minutes and total minutes asleep
 
 ```r
-r_sedentary_sleep <- daily_combined %>%
-  filter(!is.na(total_minutes_asleep)) %>%
-  summarise(r = cor(sedentary_minutes, total_minutes_asleep)) %>%
-  pull(r)
-r_sedentary_sleep <- round(r_sedentary_sleep, 2)
-
 daily_combined %>%
   filter(!is.na(total_minutes_asleep)) %>%
   ggplot(aes(x = sedentary_minutes, y = total_minutes_asleep)) +
@@ -262,15 +322,13 @@ daily_combined %>%
   theme_minimal()
 ```
 
-### Lightly active minutes vs total minutes asleep
+The graph below shows a moderate negative correlation (R=−0.60) between sedentary minutes and minutes asleep. This is a significant finding, indicating that people who spend more time being sedentary tend to get less sleep.
+
+![Chart](graphs/sedentary_v_sleep.png)
+
+### Correlation betwen lightly active minutes and total minutes asleep
 
 ```r
-r_lightly_sleep <- daily_combined %>%
-  filter(!is.na(total_minutes_asleep)) %>%
-  summarise(r = cor(lightly_active_minutes, total_minutes_asleep)) %>%
-  pull(r)
-r_lightly_sleep <- round(r_lightly_sleep, 2)
-
 daily_combined %>%
   filter(!is.na(total_minutes_asleep)) %>%
   ggplot(aes(x = lightly_active_minutes, y = total_minutes_asleep)) +
@@ -284,15 +342,13 @@ daily_combined %>%
   theme_minimal()
 ```
 
-### Fairly active minutes vs total minutes asleep
+The graph below shows a negligible positive correlation (R=0.03). This indicates that time spent in light activity (e.g., casual walking) has virtually no effect on the minutes a user sleeps.
+
+![Chart](graphs/lightly_v_sleep.png)
+
+### Correlation betwen fairly active minutes and total minutes asleep
 
 ```r
-r_fairly_sleep <- daily_combined %>%
-  filter(!is.na(total_minutes_asleep)) %>%
-  summarise(r = cor(fairly_active_minutes, total_minutes_asleep)) %>%
-  pull(r)
-r_fairly_sleep <- round(r_fairly_sleep, 2)
-
 daily_combined %>%
   filter(!is.na(total_minutes_asleep)) %>%
   ggplot(aes(x = fairly_active_minutes, y = total_minutes_asleep)) +
@@ -306,15 +362,15 @@ daily_combined %>%
   theme_minimal()
 ```
 
-### Vry active minutes vs total minutes asleep
+The graph below shows a weak negative correlation (R=−0.25). This suggests that a moderate amount of activity does not have a strong impact on a user's total sleep duration.
+
+![Chart](graphs/fairly_v_sleep.png)
+
+### Correlation between very active minutes and total minutes asleep
+
+The graph below shows a negligible negative correlation (R=−0.09). This indicates that time spent in high-intensity activity, similar to other active metrics, does not strongly affect the minutes a user sleeps.
 
 ```r
-r_very_sleep <- daily_combined %>%
-  filter(!is.na(total_minutes_asleep)) %>%
-  summarise(r = cor(very_active_minutes, total_minutes_asleep)) %>%
-  pull(r)
-r_very_sleep <- round(r_very_sleep, 2)
-
 daily_combined %>%
   filter(!is.na(total_minutes_asleep)) %>%
   ggplot(aes(x = very_active_minutes, y = total_minutes_asleep)) +
@@ -328,54 +384,6 @@ daily_combined %>%
   theme_minimal()
 ```
 
-## Step 5: Share
-
-### Average Steps by Day of Week
-
-The graph below shows that average steps are highest during the Monday-Saturday window and lowest on Sunday. This suggests users prioritize tracking activity during the work week and on the main leisure day.
-
-![Chart](graphs/avg_steps_day.png)
-
-### Average Steps by Hour of Day
-
-The graph below shows that users exhibit two distinct peak activity windows: 12 PM - 2 PM (Lunchtime) and 5 PM - 7 PM (Post-Work/Evening). There is also a noticeable dip around 3 PM. 
-
-![Chart](graphs/avg_steps_hour.png)
-
-### Correlation betwen total steps and calories
-
-The graph below shows a moderate positive correlation (R=0.59) between total steps and calories burned. This is an expected relationship, indicating that the more steps a user takes, the more likely they are to burn more calories.
-
-![Chart](graphs/steps_v_calories.png)
-
-### Correlation betwen total steps and total minutes asleep
-
-The graph below shows a negligible negative correlation (R=−0.19) between total steps and minutes asleep. This suggests that the overall number of steps a user takes does not significantly impact their total sleep duration.
-
-![Chart](graphs/steps_v_sleep.png)
-
-### Correlation betwen sedentary minutes and total minutes asleep
-
-The graph below shows a moderate negative correlation (R=−0.60) between sedentary minutes and minutes asleep. This is a significant finding, indicating that people who spend more time being sedentary tend to get less sleep.
-
-![Chart](graphs/sedentary_v_sleep.png)
-
-### Correlation betwen lightly active minutes and total minutes asleep
-
-The graph below shows a negligible positive correlation (R=0.03). This indicates that time spent in light activity (e.g., casual walking) has virtually no effect on the minutes a user sleeps.
-
-![Chart](graphs/lightly_v_sleep.png)
-
-### Correlation betwen fairly active minutes and total minutes asleep
-
-The graph below shows a weak negative correlation (R=−0.25). This suggests that a moderate amount of activity does not have a strong impact on a user's total sleep duration.
-
-![Chart](graphs/fairly_v_sleep.png)
-
-### Correlation between very active minutes and total minutes asleep
-
-The graph below shows a negligible negative correlation (R=−0.09). This indicates that time spent in high-intensity activity, similar to other active metrics, does not strongly affect the minutes a user sleeps.
-
 ![Chart](graphs/very_v_sleep.png)
 
 ## Step 6: Act
@@ -383,11 +391,11 @@ The graph below shows a negligible negative correlation (R=−0.09). This indica
 ### Reccomendations
 
 1. "Anti-Sedentary" Campaign for Sleep
-   - There strong negative correlation (R=−0.60) between sedentary minutes and total minutes asleep indicating that people who spend more time being sedentary tend to get less sleep. Bellabeat should create an "Anti Sedentary" campaign that provides in app alerts to break up long periods of activity that are linked to deteroriated sleep. The leaf or time products can track these periods and send alerts to the Bellabeat app when sednetary minutes exceed one hour. The message should be framed around restorative sleep ("A 5-minute movement break now is an investment in your sleep tonight."). 
+   - The strongest data-driven finding is the moderate negative correlation (R=−0.60) between sedentary minutes and total minutes asleep, indicating that prolonged inactivity is the primary barrier to optimal sleep. To leverage this, Bellabeat should update the Leaf/Time firmware and Bellabeat App to track and provide targeted intervention. The system should alert the user when they have been sedentary for more than 90 continuous minutes, a period chosen to interrupt the population's high average of approximately 16.5 hours of sedentary time. The messaging for this push notification must focus on the benefit of rest, using a compelling phrase like: "A 5-minute movement break now is an investment in your sleep tonight. Improve your Leaf/Time sleep score!" This directly connects product usage to the health outcome the user desires.
 2. Target the 3 PM Engagement Lull
-   - The drop-off in steps around 3 PM indicates a loss of user engagement during the mid-afternoon slump. Re-engaging users at this point can significantly lift daily activity and retention. Bellabeat should launch in-app reminders to maintain their activity. Introduce a "3-Minute-3 PM Challenge" within the App. This micro-challenge is a highly achievable goal (e.g., 200 steps or one minute of stretching) designed to break the afternoon slump and drive the user back to the App for positive reinforcement (a small badge, a point reward, etc.). This helps sustain momentum into the high-activity 5 PM - 7 PM window.
+   - Analysis of hourly steps reveals a significant drop-off in user engagement around 3 PM, creating a major opportunity for retention and momentum. To counteract this mid-afternoon slump, Bellabeat should launch a highly achievable "3-Minute-3 PM Challenge" within the Bellabeat App. This micro-challenge, which could involve a goal like 200 steps or a minute of stretching, is designed to be completed quickly and provide positive reinforcement. Furthermore, this initiative is an ideal point for product integration with the Spring smart water bottle; the post-challenge notification should prompt: "Challenge completed! Now log your hydration with Spring to sustain momentum into the 5 PM peak," successfully cross-promoting two products and encouraging all-day habit stacking.
 3. Mitigate the Weekend Activity Dip
-   - Activity drops significantly on Sunday, suggesting users pause their tracking/wellness habits, which increases the likelihood of disengagement. Maintaining a routine across all seven days is key to long-term habit formation. Bellabeat should launch the "Seven-Day Streak" or "Self-Care Sunday" initiative focused on consistency, not intensity. Instead of focusing on steps, these challenges should emphasize utilization of other Bellabeat features (e.g., logging hydration with Spring, tracking a guided meditation through the Subscription Program, or simply logging sleep data with Leaf/Time).
+   - The data shows that user activity drops significantly on Sunday, which increases the likelihood of long-term disengagement from wellness habits. Instead of pushing intense step goals, the strategy for the weekend must shift to promoting holistic consistency. We recommend launching a "Self-Care Sunday" initiative that focuses on utilizing the Subscription Program features. This challenge should prioritize low-impact, high-value activities such as logging a guided meditation, accurately tracking sleep data with Leaf/Time, or completing a light activity goal (e.g., 30 minutes of gentle walking). This maintains a continuous daily routine, ensuring users interact with the Bellabeat ecosystem across all seven days.
    
 
 
