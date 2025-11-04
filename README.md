@@ -23,9 +23,9 @@ In this hypothetical case study, I am working as a Junior Data Analyst on the ma
 
 ## Step 1: Ask
 
-The business task is to analyze external consumer data on non-Bellabeat smart devices (specifically Fitbit data) to gain critical insights into user behavior and engagement patterns.
+The business task is to analyze external consumer data on non-Bellabeat smart devices (specifically Fitbit data) to gain critical insights into user activity, engagement, and sleep behavior.
 
-By identifying key trends in activity, sleep, and caloric expenditure among typical smart device users, I will provide data-driven recommendations to the Bellabeat executive team on how to optimize marketing strategies for their products (Leaf, Time, Spring, App) to increase user engagement and drive sustainable business growth.
+By identifying key trends (like the low activity on Sundays and the 3 PM lull) and critical health correlations (like the link between sedentary time and sleep), I will provide data-driven recommendations to the Bellabeat executive team on how to optimize marketing strategies for their products—the Leaf/Time trackers, the Spring smart bottle, and the Bellabeat App and Subscription Program—to increase user engagement and drive sustainable business growth.
 
 ## Step 2: Prepare
 
@@ -39,7 +39,7 @@ Applying the ROCCC framework:
 
 - Reliable: Low due to only 33 disitnct users being a small sample size. 
 - Original: Low due the data being provided from a third party data provider (Amazon Mechanical Turk).
-- Comprehensive: Low due to The dataset lacks crucial demographic information (e.g., gender, age, health conditions) and only focuses on activity, calories, and sleep.
+- Comprehensive: Low due to The dataset lacking crucial demographic information (e.g., gender, age, health conditions) and only focuses on activity, calories, and sleep.
 - Current: Low due to the data being approximatley 9 years ago.
 - Cited: Low due to the fact that it has been obtained from an unidentified third partyu source (Amazon Mechanical Turk).
 
@@ -149,6 +149,14 @@ daily_combined <- daily_combined %>%
 ```
 
 ## Step 4: Analyze
+
+### Descriptive Statistics 
+
+Before correlation and time-series analysis, key descriptive statistics were generated to establish a baseline of the typical smart device user's habits.
+
+| Average_Steps 	| Average_Sleep_Min 	| Average_Sedentary_Min 	| Average_Calories 	| Average_Activity 	|
+|---------------	|-------------------	|-----------------------	|------------------	|------------------	|
+| 7637.911      	| 419.1732          	| 991.2106              	| 2303.61          	| 227.5426         	|
 
 ### Graphing Average Steps by Day of Week
 
