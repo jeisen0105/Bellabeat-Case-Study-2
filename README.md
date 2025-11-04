@@ -106,7 +106,7 @@ hourly_calories_clean <- hourly_calories %>%
 
 ### Data Merging
 
-The cleaned daily and hourly datasets were combined into two comprehensive tables using an full_join().
+The cleaned daily and hourly datasets were combined into two comprehensive tables using a full_join().
 
 ```r
 daily_combined <- full_join(
@@ -241,7 +241,7 @@ The graph below shows that users exhibit two distinct peak activity windows: 12 
 
 ![Chart](graphs/avg_steps_hour.png)
 
-### Correlation betwen total steps and calories
+### Correlation Between Total Steps and Calories
 
 ```r
 daily_combined %>%
@@ -262,7 +262,7 @@ The graph below shows a moderate positive correlation (R=0.59) between total ste
 
 ![Chart](graphs/steps_v_calories.png)
 
-### Correlation betwen total steps and total minutes asleep
+### Correlation Between Total Steps and Total Minutes Asleep
 
 ```r
 daily_combined %>%
@@ -284,7 +284,7 @@ The graph below shows a negligible negative correlation (R=−0.19) between tota
 
 ![Chart](graphs/steps_v_sleep.png)
 
-### Correlation betwen sedentary minutes and total minutes asleep
+### Correlation Between Sedentary Minutes and Total Minutes Asleep
 
 ```r
 daily_combined %>%
@@ -306,7 +306,7 @@ The graph below shows a moderate negative correlation (R=−0.60) between sedent
 
 ![Chart](graphs/sedentary_v_sleep.png)
 
-### Correlation betwen lightly active minutes and total minutes asleep
+### Correlation Between Lightly Active Minutes and Total Minutes Asleep
 
 ```r
 daily_combined %>%
@@ -328,7 +328,7 @@ The graph below shows a negligible positive correlation (R=0.03). This indicates
 
 ![Chart](graphs/lightly_v_sleep.png)
 
-### Correlation betwen fairly active minutes and total minutes asleep
+### Correlation Between Fairly Active Minutes and Total Minutes Asleep
 
 ```r
 daily_combined %>%
@@ -350,7 +350,7 @@ The graph below shows a weak negative correlation (R=−0.25). This suggests tha
 
 ![Chart](graphs/fairly_v_sleep.png)
 
-### Correlation between very active minutes and total minutes asleep
+### Correlation Between Very Active Minutes and Total Minutes Asleep
 
 ```r
 daily_combined %>%
